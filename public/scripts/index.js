@@ -124,10 +124,26 @@ const showErrors = (errorObj) => {
 // Helper function to send a POST request to the diagnostics route (/api/diagnostics)
 const submitDiagnostics = (submissionObj) => {
   // TODO: your code here
-  console.info(
-    '⚠️ Create the logic for the fetch POST request in scripts/index.js'
-  );
-  alert('Add your logic to scripts/index.js');
+  const diagnosticsData = {
+    error_type: 'Invalid Form Submission',
+    error_message: JSON.stringify(submissionObj.errors),
+    timestamp: new Date().toISOString(),
+  };
+
+  fetch('/api/diagnostics', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(diagnosticsData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Diagnostics data sent successfully:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 };
 
 // Function to handle when a user submits the feedback form
